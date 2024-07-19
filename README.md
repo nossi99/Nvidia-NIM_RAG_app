@@ -6,6 +6,6 @@ NVIDIA NIM-powered RAG app which is optimized for high-performance inference usi
 3. Run: conda activate venv/
 4. Run: pip install -r requirements.txt
 
-After that you can run the app by: streamlit run app1.py
+After that you can run the app using streamlit: streamlit run rag_app.py
 
 Have fun :)

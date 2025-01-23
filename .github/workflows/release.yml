@@ -1,17 +1,17 @@
 name: Release
 on:
   push:
-    branches: [main]  # Ändere den Branch, falls nötig (z. B. master)
+    branches:
+      - main  # Ändere zu deinem Standard-Branch (z. B. "master")
 
 jobs:
   release:
-    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Wichtig, um die gesamte Commit-History zu laden
+          fetch-depth: 0  # Lädt die gesamte Commit-History
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -19,7 +19,7 @@ jobs:
           node-version: "20"
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Semantic Release
         run: npx semantic-release

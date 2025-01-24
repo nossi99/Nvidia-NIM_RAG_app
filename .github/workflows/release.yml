@@ -1,27 +1,25 @@
 name: Release
+
 on:
-  push:
-    branches:
-      - main  # Ändere zu deinem Standard-Branch (z. B. "master")
+  workflow_dispatch:
 
 jobs:
   release:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Lädt die gesamte Commit-History
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Run Semantic Release
-        run: npx semantic-release
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatisch von GitHub bereitgestellt
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}

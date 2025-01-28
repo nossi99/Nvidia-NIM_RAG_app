@@ -23,9 +23,6 @@ pip-delete-this-directory.txt
 *.mo
 *.pot
 
-# Scrapy stuff:
-.scrapy
-
 # PyBuilder
 .pybuilder/
 target/

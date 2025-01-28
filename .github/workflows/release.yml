@@ -19,7 +19,6 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npm run build
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}

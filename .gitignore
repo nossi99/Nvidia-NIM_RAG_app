@@ -22,10 +22,6 @@ pip-delete-this-directory.txt
 # Scrapy stuff:
 .scrapy
 
-# PyBuilder
-.pybuilder/
-target/
-
 # Jupyter Notebook
 .ipynb_checkpoints
 

@@ -9,3 +9,6 @@ NVIDIA NIM-powered RAG app which is optimized for high-performance inference usi
 After that you can run the app using streamlit: streamlit run rag_app.py
 
 Have fun :)
+
+
+npm install semantic-release @semantic-release/git @semantic-release/github -D

@@ -6,9 +6,6 @@ __pycache__/
 # node modules
 /node_modules
 
-# Scrapy stuff:
-.scrapy
-
 # Jupyter Notebook
 .ipynb_checkpoints
 

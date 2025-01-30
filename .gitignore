@@ -9,10 +9,6 @@ __pycache__/
 # Scrapy stuff:
 .scrapy
 
-# PyBuilder
-.pybuilder/
-target/
-
 # Jupyter Notebook
 .ipynb_checkpoints
 

@@ -1,0 +1,3 @@
+[submodule "libs/repo"]
+	path = libs/repo
+	url = https://github.com/nossi99/test-repo-submodule.git

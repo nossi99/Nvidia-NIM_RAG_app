@@ -25,20 +25,20 @@ jobs:
           git submodule sync --recursive
           git submodule update --init --recursive --remote
 
-          - name: Check and Commit Submodule updates
-          id: submodule-check
-          run: |
-            if [[ $(git status --porcelain) ]]; then
-              echo "changes_detected=true" >> $GITHUB_OUTPUT
-              git config user.name "GitHub Actions"
-              git config user.email "actions@github.com"
-              git add -A
-              git commit -m "fix: update submodules"
-              git pull --rebase  # Konflikte vermeiden
-              git push
-            else
-              echo "changes_detected=false" >> $GITHUB_OUTPUT
-            fi
+      - name: Check and Commit Submodule updates
+        id: submodule-check
+        run: |
+          if [[ $(git status --porcelain) ]]; then
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+            git add -A
+            git commit -m "fix: update submodules"
+            git pull --rebase  # Konflikte vermeiden
+            git push
+          else
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

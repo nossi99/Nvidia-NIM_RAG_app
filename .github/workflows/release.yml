@@ -5,34 +5,55 @@ on:
       - main
 
 permissions:
-  contents: read # for checkout
+  contents: read
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
     permissions:
-      contents: write # to be able to publish a GitHub release
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: false
+
       - name: Update submodules
         run: |
           git submodule sync --recursive
           git submodule update --init --recursive --remote
+
+      - name: Check for submodule updates
+        id: check-submodules
+        run: |
+          if [[ $(git status --porcelain) ]]; then
+            echo "submodules_updated=true" >> $GITHUB_OUTPUT
+          else
+            echo "submodules_updated=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit updated submodules
+        if: steps.check-submodules.outputs.submodules_updated == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git commit -m "fix: update submodules"
+          git push
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22.13.1"
+
       - name: Install dependencies
         run: npm clean-install
-      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+
+      - name: Verify dependencies
         run: npm audit signatures
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

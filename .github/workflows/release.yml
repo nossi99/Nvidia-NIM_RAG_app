@@ -5,44 +5,28 @@ on:
       - main
 
 permissions:
-  contents: write  # Für Push-Berechtigungen
+  contents: read # for checkout
 
 jobs:
-  release:
+  semantic-release:
+    name: semantic-release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
     steps:
-      - name: Checkout (mit Submodulen)
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Vollständiger Commit-Verlauf
-          submodules: recursive  # Submodule initialisieren
-
-      - name: Update Submodule auf neueste Version
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --remote --recursive --force
-
-      - name: Submodule-Änderungen erkennen und committen
-        id: commit-submodules
-        run: |
-          # Prüfe, ob Submodule-Änderungen vorliegen
-          if git diff --submodule=log --exit-code; then
-            echo "Keine Submodule-Änderungen erkannt."
-            echo "submodules_updated=false" >> $GITHUB_OUTPUT
-          else
-            echo "Submodule-Änderungen erkannt. Committe sie..."
-            git config user.name "GitHub Actions"
-            git config user.email "actions@github.com"
-            git add -A  # Füge alle Änderungen hinzu (inkl. Submodule-SHAs)
-            git commit -m "fix(submodules): Update Submodule [skip ci]"
-            echo "submodules_updated=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Push Submodule-Änderungen (falls erforderlich)
-        if: steps.commit-submodules.outputs.submodules_updated == 'true'
-        run: git push
-
-      - name: Semantic Release
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.13.1"
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release

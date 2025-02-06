@@ -11,4 +11,4 @@ After that you can run the app using streamlit: streamlit run rag_app.py
 Have fun :)
 
 
-npm install semantic-release @semantic-release/git @semantic-release/github -D
+*** npm install semantic-release @semantic-release/git @semantic-release/github -D ***

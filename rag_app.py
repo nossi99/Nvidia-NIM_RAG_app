@@ -31,7 +31,7 @@ def vector_embedding():
         st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings) #vector OpenAI embeddings
 
 
-st.title("Nvidia NIM Demo")
+st.title("Unternehmensbericht APP")
 llm = ChatNVIDIA(model="meta/llama3-70b-instruct")
 
 
@@ -48,7 +48,7 @@ Questions:{input}
 )
 
 
-prompt1=st.text_input("Enter Your Question From Documents")
+prompt1=st.text_input("Trage den Namen des Unternehmens ein.")
 
 
 if st.button("Documents Embedding"):
